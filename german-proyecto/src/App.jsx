@@ -1,23 +1,17 @@
 import './App.css';
 import React from 'react';
-import Button from './components/Button/Button';
 
-//Componente Padre => App
 function Padre() {
   const[frutas, setFrutas] = React.useState(['manzana','banana']);
   
-  const agragarPera = (nuevaFruta) => {
-    console.log("Agregado");
-    setFrutas((frutasAnteriores) => [...frutasAnteriores,nuevaFruta])
+  const agragarPera = (ref) => {
+    console.log(ref.current.value);
+    setFrutas((frutasAnteriores) => [...frutasAnteriores,ref.current.value])
   };
 
   return (
     <div className="App">
-      {// Compoenente Hijo
-      }
       <Hijo agragado={agragarPera} mercado={frutas}/>
-      {/* <Button miCallback={() => miCallback()}/> */}
-
     </div>
   );
 }
@@ -25,15 +19,14 @@ function Padre() {
 export default Padre;
 
 function Hijo(props) {
-  
+  const myRef = React.useRef(null);
   return (
     <div>
       <h1>Mi Primer Proyecto Publico</h1>
-      Hijo 1
-      __________
-      {props.mercado}
+      <input ref={myRef}/>
+      {props.mercado.map((fruta)=><h2>{fruta}</h2>)}
       {/* <Button miCallback={() => miCallback()}/> */}
-      <button onClick={()=>props.agragado('uva')}>Agregar Pera</button>
+      <button onClick={()=>props.agragado(myRef)}>Agregar Fruta</button>
     </div>
   );
 }
