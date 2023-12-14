@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+.container-card {
+  border-radius: 20px;
+  border: solid gray 1px;
+  background-color: black;
+  color: white;
+  max-width: 400px;
+}
