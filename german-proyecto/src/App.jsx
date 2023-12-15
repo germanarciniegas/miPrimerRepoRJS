@@ -3,16 +3,34 @@ import React from 'react';
 
 function Padre() {
   const[digimones, setDigimons] = React.useState([]);
+  const[copyDigimones, setCopyDigimons] = React.useState([]);
+  const[search, setSearch] = React.useState('');
+  const inputSearch = React.useRef(null);
   
   React.useEffect(()=> {
       fetch('https://digimon-api.vercel.app/api/digimon')
       .then((response) => response.json())
       .then((dataDigimon)=> {
         setDigimons(dataDigimon)
+        setCopyDigimons(dataDigimon)
       })
+      ///
+      if(inputSearch && inputSearch.current) {
+        inputSearch.current.addEventListener('keyup',(e)=>{
+          setSearch(inputSearch.current.value)
+        });
+      }
   },[])
 
-  console.log(digimones)
+  console.log(digimones, search)
+
+  React.useEffect(()=> {
+    //componentDidUpdate => infinitas
+    // const newDigimones = digimones.map((digimon) => digimon.name.inludes(search))
+    const newDigimones = digimones.filter((digimon) => digimon.name.toLowerCase().includes(search.toLowerCase()) || digimon.level.toLowerCase().includes(search.toLowerCase()));
+    setCopyDigimons(newDigimones)
+    console.log(newDigimones)
+  },[search])
 
 
   // React.useEffect(()=> {
@@ -42,12 +60,18 @@ function Padre() {
   
 
   return (
-    <div className="App">
-      {digimones.map((digimon)=>{
-          return <DigimonCard name={digimon.name} img={digimon.img} level={digimon.level}/>
-        })
-      }
-    </div>
+   
+    <>
+     <div className='search'>
+        <input ref={inputSearch} type="text" placeholder='Busca tu Digimon'/>
+      </div>
+      <div className="App">
+        {copyDigimones.map((digimon)=>{
+            return <DigimonCard name={digimon.name} img={digimon.img} level={digimon.level}/>
+          })
+        }
+      </div>
+    </>
   );
 }
 

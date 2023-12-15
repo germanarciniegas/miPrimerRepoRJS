@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  flex-wrap: wrap;
+  display: flex;
 }
 
 .App-logo {
@@ -42,4 +44,10 @@
   background-color: black;
   color: white;
   max-width: 400px;
+}
+.search {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 20px 0;
 }
